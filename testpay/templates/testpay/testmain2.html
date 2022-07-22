@@ -54,7 +54,6 @@
 
         <h1>CJ One Pay Test Page</h1>
         <strong>Pay API 테스트 진행</strong>
-        <a href="pc2app/">이동하기</a>,
 
         <br>
 
@@ -66,15 +65,13 @@
     
         <ul class="ChnnlList">
             <li v-for="(chnnlItem, id) in chnnlItems" v-bind:key="chnnlItem.id" v-on:click="selChnnl(chnnlItem.id)">
-                <a v-bind:href="chnnlItem.address">{chnnlItem.name}</a>
-
+                <span>{chnnlItem.name}</span>                
             </li>
         </ul>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         var vm = new Vue({
             delimiters: ['{', '}'],
@@ -83,13 +80,11 @@
                 name: '',
                 newChnnlItem: '',
                 chnnlItems:[
-                    {id:1040001, name: '오프라인', address:'pc2app/'},
+                    {id:1040001, name: '오프라인'},
                     {id:1040002, name: '온라인-PC to APP'},
                     {id:1040003, name: '온라인-APP to APP'},
                     {id:1040004, name: '온라인-WEB to WEB'},
                 ],
-                link:'www.naver.com',
-
             },
             methods: {
                 add_todo: function() {
@@ -99,13 +94,11 @@
                 selChnnl: function(chnnlCd) {
                     if(chnnlCd == 1040001)
                         console.log("오프라인 거래");
-                        
                     else if(chnnlCd == 1040002)
-                    
-                        console.log("온라인-PC to APP 거래");
-                  
+                        console.log("온라인-PC to APP 거래");                        
                     else if(chnnlCd == 1040003)
                         console.log("온라인-APP to APP 거래");
+
                     else if(chnnlCd == 1040004)
                         console.log("온라인-WEB to WEB");
 
