@@ -22,7 +22,7 @@
         .inputBox {
             border-style: none;
             border-bottom: 1px solid #ddd;
-            width: 400px;
+            margin: auto;
             margin-left: 50px;
             padding-left: 20px;
         }
@@ -31,57 +31,58 @@
 </head>
 
 <body>
-
-    <div id='pc2app'>
         <header>CJ One Pay Test: 온라인 PC to APP</header>
         <br>
-        <div style="border: 1px dotted; border-radius: 5px; padding: 10px; width: 70%; text-align: left; margin: auto; background: white;">
-            <h4>Header 영역</h4>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>MERCHANT-KEY: </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
-                    </tr>
-                    <tr>
-                        <td>MERCHANT-ID: </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <br>
+
+    <div id='apiHeader' style="border: 1px dotted; border-radius: 5px; padding: 10px; width: 70%; text-align: left; margin: auto; background: white;">
+    <h4>Header 영역</h4>
+        <table>
+            <tbody>
+                <tr>
+                    <td>MERCHANT-KEY: </td>
+                    <td><input v-model="head.merchantKey" class="inputBox" type = "text" style="width: 400px"></td>
+                </tr>
+                <tr>
+                    <td>MERCHANT-ID: </td>
+                    <td><input v-model="head.merchantId" class="inputBox" type = "text" style="width: 400px"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id='pc2app'>
         <div style="border: 1px dotted; border-radius: 5px; padding: 10px; width: 70%; text-align: left; margin: auto; background: white;">
 
             <h4>결제정보등록 : /pm/v1/pmt/minfo/regi/do
-            <button v-on:click="testSubmit()">전송</button>
+            <button v-on:click="testPostSubmit()">전송</button>
+            <button v-on:click="test()">테스트</button>
             </h4>
             <hr>
             <table>
                 <tbody>
                     <tr>
                         <td>chnnlTypeCd(채널유형코드) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input id="chnnlTypeCd" v-model="pm001.chnnlTypeCd" class="inputBox" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>mchtTrNo(가맹점거래번호) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001.mchtTrNo" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>repPrdtNm(대표상품이름) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001.repPrdtNm" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>totPmtAmt(총결제금액) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001.totPmtAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>totPrdtQty(전체상품수량) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001.totPrdtQty" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>signature </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001.signature" type = "text" style="width: 400px"></td>
                     </tr>
                 </tbody>
             </table>
@@ -120,23 +121,66 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        var hd = new Vue({
+            delimiters: ['{', '}'],
+            el: '#apiHeader',
+            data: {
+                head: {
+                    merchantKey:'c2329e6fb050a55e6aa3aed23782c870',
+                    merchantId:'3000000001',
+                },
+            }
+        })
         var vm = new Vue({
             delimiters: ['{', '}'],
             el: '#pc2app',
             data: {
-                name: '',
-
-
-            },
-            methods: {
-                testSubmit: function() {
-                    console.log("testSubmit()...");
-
+                pm001: {
+                    merchantKey:'',
+                    merchantId:'',
+                    chnnlTypeCd:'1040002',
+                    mchtTrNo:'abc1234',
+                    repPrdtNm:'대표상품',
+                    totPmtAmt:'10000',
+                    totPrdtQty:'5',
+                    signature:'',
+                    code:'',
+                    message:'',
+                    trNo:'',
+                    pmtReqId:'',
+                    qrCd:'',
                 },
 
             },
-        })
-    </script>
+            methods: {
+                test: function() {
 
+                    console.log(hd.head)
+                    console.log(vm.pm001)
+
+                },
+
+                testPostSubmit: function() {
+                    console.log("testPostSubmit()...");
+
+                    this.pm001.merchantKey = hd.head.merchantKey
+                    this.pm001.merchantId = hd.head.merchantId
+
+                    decSignature = hd.head.merchantId + this.chnnlTypeCd + this.mchtTrNo + this.totPmtAmt + this.totPrdtQty
+                    encSignature =
+
+                    this.pm001.signature =
+
+                    axios.post('/api/CJP-PM-001/', this.pm001)
+                        .then(function (res) {
+                            console.log("POST RES", res);
+                        })
+                        .catch(function( err) {
+                            console.log("POST ERR", err);
+                        })
+                    },
+                },
+            })
+    </script>
 </body>
 </html>
