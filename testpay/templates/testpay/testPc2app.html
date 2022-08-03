@@ -62,27 +62,27 @@
                 <tbody>
                     <tr>
                         <td>chnnlTypeCd(채널유형코드) </td>
-                        <td><input id="chnnlTypeCd" v-model="pm001.chnnlTypeCd" class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input id="chnnlTypeCd" v-model="pm001_req.chnnlTypeCd" class="inputBox" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>mchtTrNo(가맹점거래번호) </td>
-                        <td><input class="inputBox" v-model="pm001.mchtTrNo" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_req.mchtTrNo" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>repPrdtNm(대표상품이름) </td>
-                        <td><input class="inputBox" v-model="pm001.repPrdtNm" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_req.repPrdtNm" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>totPmtAmt(총결제금액) </td>
-                        <td><input class="inputBox" v-model="pm001.totPmtAmt" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_req.totPmtAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>totPrdtQty(전체상품수량) </td>
-                        <td><input class="inputBox" v-model="pm001.totPrdtQty" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_req.totPrdtQty" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>signature </td>
-                        <td><input class="inputBox" v-model="pm001.signature" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_req.signature" type = "text" style="width: 400px"></td>
                     </tr>
                 </tbody>
             </table>
@@ -91,27 +91,27 @@
                 <tbody>
                     <tr>
                         <td>code(응답코드) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_res.code" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>message(응답메세지) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_res.message" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>trNo(API거래번호) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_res.trNo" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>data.pmtReqId(결제요청ID) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_res.pmtReqId" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>data.qrCd(QR코드) </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_res.qrCd" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>signature </td>
-                        <td><input class="inputBox" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm001_res.signature" type = "text" style="width: 400px"></td>
                     </tr>
                 </tbody>
             </table>
@@ -120,7 +120,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="/static/utils/encrypt.js"></script>
     <script>
+
         var hd = new Vue({
             delimiters: ['{', '}'],
             el: '#apiHeader',
@@ -135,7 +138,7 @@
             delimiters: ['{', '}'],
             el: '#pc2app',
             data: {
-                pm001: {
+                pm001_req: {
                     merchantKey:'',
                     merchantId:'',
                     chnnlTypeCd:'1040002',
@@ -144,11 +147,14 @@
                     totPmtAmt:'10000',
                     totPrdtQty:'5',
                     signature:'',
+                },
+                pm001_res: {
                     code:'',
                     message:'',
                     trNo:'',
                     pmtReqId:'',
                     qrCd:'',
+                    signature:'',
                 },
 
             },
@@ -156,24 +162,30 @@
                 test: function() {
 
                     console.log(hd.head)
-                    console.log(vm.pm001)
 
                 },
 
                 testPostSubmit: function() {
                     console.log("testPostSubmit()...");
 
-                    this.pm001.merchantKey = hd.head.merchantKey
-                    this.pm001.merchantId = hd.head.merchantId
+                    this.pm001_req.merchantKey = hd.head.merchantKey
+                    this.pm001_req.merchantId = hd.head.merchantId
 
-                    decSignature = hd.head.merchantId + this.chnnlTypeCd + this.mchtTrNo + this.totPmtAmt + this.totPrdtQty
-                    encSignature =
+                    decSignature = hd.head.merchantId + this.pm001_req.chnnlTypeCd + this.pm001_req.mchtTrNo + this.pm001_req.totPmtAmt + this.pm001_req.totPrdtQty
+                    this.pm001_req.signature = getEncSignature(decSignature)
 
-                    this.pm001.signature =
+                    console.log(decSignature)
+                    
 
-                    axios.post('/api/CJP-PM-001/', this.pm001)
+                    axios.post('/api/CJP-PM-001/', this.pm001_req)
                         .then(function (res) {
-                            console.log("POST RES", res);
+                            vm.pm001_res.code=res.data.code
+                            vm.pm001_res.message=res.data.message
+                            vm.pm001_res.trNo=res.data.trNo
+                            vm.pm001_res.pmtReqId=res.data.data.pmtReqId
+                            vm.pm001_res.qrCd=res.data.data.qrCd
+                            vm.pm001_res.signature=res.data.signature
+                            
                         })
                         .catch(function( err) {
                             console.log("POST ERR", err);
