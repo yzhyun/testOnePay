@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td>svfFee(봉사료) </td>
-                        <td><input class="inputBox" v-model="pm1001_req.svfFee" type = "text" style="width: 400px"></td>
+                        <td><input class="inputBox" v-model="pm1001_req.svcFee" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>totPrdtQty(전체상품수량) </td>
@@ -146,6 +146,9 @@
                     <tr>
                         <td>qrCd(QR코드) </td>
                         <td><input class="inputBox" v-model="callQrPage_req.qrCd" type = "text" style="width: 400px"></td>
+                    </tr><tr>
+                        <td>merchantId(가맹점ID) </td>
+                        <td><input class="inputBox" v-model="callQrPage_req.merchantId" type = "text" style="width: 400px"></td>
                     </tr>
                 </tbody>
             </table>
@@ -399,12 +402,12 @@
                     merchantId:'',
                     chnnlTypeCd:'1040002',
                     mchtTrNo:'abc1234',
-                    repPrdtNm:'대표상품',
+                    repPrdtNm:'대표상품테스트진행',
                     totPmtAmt:'10000',
                     totPrdtQty:'5',
-                    taxAmt:'',
-                    taxfAmt:'',
-                    svcFee:'',
+                    taxAmt:'1000',
+                    taxfAmt:'8000',
+                    svcFee:'1000',
                     signature:'',
                 },
                 pm1001_res: {
@@ -424,8 +427,10 @@
 
                     this.pm1001_req.merchantKey = hd.head.merchantKey
                     this.pm1001_req.merchantId = hd.head.merchantId
+                    this.pm1001_req.apiId = "pm1001"
 
-                    decSignature = hd.head.merchantId + this.pm1001_req.chnnlTypeCd + this.pm1001_req.mchtTrNo + this.pm1001_req.totPmtAmt + this.pm1001_req.totPrdtQty
+                    decSignature = hd.head.merchantId + this.pm1001_req.chnnlTypeCd + this.pm1001_req.mchtTrNo + this.pm1001_req.totPmtAmt
+                    + this.pm1001_req.taxAmt + this.pm1001_req.taxfAmt + this.pm1001_req.svcFee + this.pm1001_req.totPrdtQty
 
                     //zhyun 변경사항 반영하여 signature 생성해야 함.
                     this.pm1001_req.signature = getEncSignature(decSignature)
@@ -436,12 +441,13 @@
                             vm_pm1001.pm1001_res.message=res.data.message
                             vm_pm1001.pm1001_res.trNo=res.data.trNo
                             vm_pm1001.pm1001_res.pmtReqId=res.data.data.pmtReqId
+                            vm_pm1001.pm1001_res.mchtTrNo=res.data.data.mchtTrNo
                             vm_pm1001.pm1001_res.qrCd=res.data.data.qrCd
                             vm_pm1001.pm1001_res.signature=res.data.signature
 
                             vm_callQrPage.callQrPage_req.pmtReqId=res.data.data.pmtReqId
                             vm_callQrPage.callQrPage_req.qrCd=res.data.data.qrCd
-                     
+                            vm_callQrPage.callQrPage_req.merchantId=hd.head.merchantId
                         })
                         .catch(function( err) {
                             console.log("POST ERR", err);
@@ -455,6 +461,7 @@
             data: {
                 callQrPage_req: {
                     pmtReqId:'',
+                    merchantId:'',
                     qrCd:'',
                 },
                 callQrPage_res: {
@@ -467,6 +474,9 @@
                 openQrCd: function() {
                     console.log("openQrCd")
                     //qr코드 조회 창 call 로직 필요
+
+                    //window.open("testmain.html", "", "width=300, height=300, top=100")
+
                     //다음 step(결제요청)으로 pmtReqId 전달
                     vm_pm1005.pm1005_req.pmtReqId=this.callQrPage_req.pmtReqId
 
@@ -478,6 +488,8 @@
             el: '#pc2app_pm1005',
             data: {
                 pm1005_req: {
+                    merchantKey:'',
+                    merchantId:'',
                     pmtReqId:'',
                     signature:'',
                 },
@@ -509,11 +521,28 @@
             }, 
             methods: {
                 submit_pm1005: function() {
-                    console.log("submit_pm1005")                    
-                    //다음 step(결제승인)으로 pmtReqId 전달
-                    
-                    decSignature = hd.head.merchantId + this.pm1005_req.pmtReqid
+                    console.log("submit_pm1005")
+
+
+                    this.pm1005_req.merchantKey = hd.head.merchantKey
+                    this.pm1005_req.merchantId = hd.head.merchantId
+
+                    decSignature = this.pm1005_req.merchantId + this.pm1005_req.pmtReqId
                     this.pm1005_req.signature = getEncSignature(decSignature)
+                    this.pm1005_req.apiId = "pm1005"
+    
+                    axios.post('/api/CJP-PM-005/', this.pm1005_req)
+                        .then(function (res) {
+
+
+                            //다음 step(결제승인)으로 pmtReqId 전달
+                            this.pm1005_req.signature = getEncSignature(decSignature)
+                        })
+                        .catch(function( err) {
+                            console.log("POST ERR", err);
+                        })
+
+
                     
                 }
             },                   
@@ -554,7 +583,7 @@
                     console.log("submit_pm1006")                    
                     //다음 step(결제승인)으로 pmtReqId 전달
                     
-                    decSignature = hd.head.merchantId + this.pm1006_req.pmtReqid
+                    decSignature = hd.head.merchantId + this.pm1006_req.pmtReqId
                     this.pm1006_req.signature = getEncSignature(decSignature)
                     
                 }

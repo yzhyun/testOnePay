@@ -7,7 +7,7 @@ class testMain(TemplateView):
 
 
 class testPc2App(TemplateView):
-    template_name = 'testpay/testpc2app.html'
+    template_name = 'testpay/testPc2app.html'
 
     '''def goTestPc2App(request):
         return render(request, 'testpay/testpc2app.html')'''

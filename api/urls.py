@@ -7,6 +7,7 @@ urlpatterns = [
 
     #path('CJP-PM-001/', views.ApiGetList.as_view(), name='PM001'),
     path('CJP-PM-001/', views.post),
+    path('CJP-PM-005/', views.post),
 
 
 ]
