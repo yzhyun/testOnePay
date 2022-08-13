@@ -475,7 +475,17 @@
                     console.log("openQrCd")
                     //qr코드 조회 창 call 로직 필요
 
-                    //window.open("testmain.html", "", "width=300, height=300, top=100")
+                    const ww = 480;
+                    const wh = 720;
+                    // 팝업창 위치(가맹점 창의 가운데 기준)
+                    const left = (document.documentElement.clientWidth - ww) / 2;
+                    const top = (document.documentElement.clientHeight - wh) / 2;
+
+                    window.open(
+                        "https://dev-pay.cjone.com/pg-mpm/?reqId=" + this.callQrPage_req.pmtReqId + "&qrCd=" + this.callQrPage_req.qrCd + '"',
+                        "CJ ONE PAY",
+                        `width=${ww}, height=${wh}, top=${top}, left=${left}`
+                    );
 
                     //다음 step(결제요청)으로 pmtReqId 전달
                     vm_pm1005.pm1005_req.pmtReqId=this.callQrPage_req.pmtReqId
@@ -494,29 +504,29 @@
                     signature:'',
                 },
                 pm1005_res: {
-                    code:'1',
-                    message:'2',
-                    trNo:'3',
-                    pmtReqId:'4',
-                    mchtTrNo:'5',
-                    mbrNo:'1',
-                    oneMbrNo:'2',
-                    totPmtAmt:'3',
-                    taxAmt:'4',
-                    taxfAmt:'5',
-                    svcFee:'1',
-                    pntUseAmt:'2',
-                    gftUseAmt:'3',
-                    crdAprvAmt:'4',
-                    crdfmCd:'5',
-                    crdAuth_otcTypeCd:'1',                   
-                    crdAuth_otc:'2',
-                    crdAuth_crdNo:'3',
-                    crdAuth_cavv:'4',
-                    crdAuth_xid:'5',
-                    crdAuth_eci:'1',
-                    crdAuth_otcV2:'2',
-                    signature:'3',
+                    code:'',
+                    message:'',
+                    trNo:'',
+                    pmtReqId:'',
+                    mchtTrNo:'',
+                    mbrNo:'',
+                    oneMbrNo:'',
+                    totPmtAmt:'',
+                    taxAmt:'',
+                    taxfAmt:'',
+                    svcFee:'',
+                    pntUseAmt:'',
+                    gftUseAmt:'',
+                    crdAprvAmt:'',
+                    crdfmCd:'',
+                    crdAuth_otcTypeCd:'',
+                    crdAuth_otc:'',
+                    crdAuth_crdNo:'',
+                    crdAuth_cavv:'',
+                    crdAuth_xid:'',
+                    crdAuth_eci:'',
+                    crdAuth_otcV2:'',
+                    signature:'',
                 },
             }, 
             methods: {
@@ -589,6 +599,15 @@
                 }
             },                   
         })
+
+        window.addEventListener("message", ({ origin, data }) => {
+        // 팝업창 주소가 CJ PAY WEB이 아니면 리턴
+        if (origin !== "https://dev-pay.cjone.com") return;
+
+        if (data.msg === "onCjpPmtReady") {
+            alert("👉 Here, 사용자인증 후 처리 내용 구현 👈");
+        }
+        });
     </script>
 </body>
 </html>
