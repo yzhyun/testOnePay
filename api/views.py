@@ -9,12 +9,13 @@ from django.http import HttpResponse
 import requests
 
 # dev
-# trgtUrl="https://dev-pm.cjone.com"
+trgtUrl="https://dev-pm.cjone.com"
 # local
-trgtUrl = "http://localhost:8080"
+#trgtUrl = "http://localhost:8080"
 
 api_dict = {
     'pm1001': '/pm/v1/pmt/minfo/regi/do',  # 결제예약정보
+    'pm1023': '/pm/v1/pmt/info/get',    #결제정보조회
     'pm1005': '/pm/v1/pmt/mthd/auth/do',  # 결제요청
     'pm1006': '/pm/v1/pmt/mthd/aprv/do',  # 결제승인
     'pm1010': '/pm/v1/pmt/cncl/all/do',  # 결제전체취소

@@ -75,18 +75,6 @@
                         <td><input class="inputBox" v-model="pm1001_req.totPmtAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
-                        <td>taxAmt(과세 금액) </td>
-                        <td><input class="inputBox" v-model="pm1001_req.taxAmt" type = "text" style="width: 400px"></td>
-                    </tr>
-                    <tr>
-                        <td>taxfAmt(비과세 금액) </td>
-                        <td><input class="inputBox" v-model="pm1001_req.taxfAmt" type = "text" style="width: 400px"></td>
-                    </tr>
-                    <tr>
-                        <td>svfFee(봉사료) </td>
-                        <td><input class="inputBox" v-model="pm1001_req.svcFee" type = "text" style="width: 400px"></td>
-                    </tr>
-                    <tr>
                         <td>totPrdtQty(전체상품수량) </td>
                         <td><input class="inputBox" v-model="pm1001_req.totPrdtQty" type = "text" style="width: 400px"></td>
                     </tr>
@@ -135,6 +123,7 @@
         <div style="border: 1px dotted; border-radius: 5px; padding: 10px; width: 70%; text-align: left; margin: auto; background: white;">
             <h4>QR코드 화면 호출 : https://pay.cjone.com/pg-qr
                 <button v-on:click="openQrCd()">QR코드 화면 호출</button>
+                <button v-on:click="openApp()">App 호출</button>
             </h4>
             <hr>
             <table>
@@ -153,7 +142,68 @@
                 </tbody>
             </table>
         </div>
-    </div>    
+    </div>
+    <div id='pc2app_pm1023'>
+        <div style="border: 1px dotted; border-radius: 5px; padding: 10px; width: 70%; text-align: left; margin: auto; background: white;">
+            <h4>결제정보조회
+                <button v-on:click="submit_pm1023()">결제정보조회</button>
+            </h4>
+            <hr>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>pmtReqId(결제요청ID) </td>
+                        <td><input class="inputBox" v-model="pm1023_req.pmtReqId" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>signature </td>
+                        <td><input class="inputBox" v-model="pm1023_req.signature" type = "text" style="width: 400px"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br><hr>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>code(응답코드) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.code" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>message(응답메세지) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.message" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>trNo(API거래번호) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.trNo" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>data.pmtReqId(결제요청ID) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.pmtReqId" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>data.totPmtAmt(총결제금액) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.totPmtAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>data.pntUseAmt(포인트사용금액) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.pntUseAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>data.gftUseAmt(기프트카드사용금액) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.gftUseAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>data.crdAprvAmt(카드승인금액) </td>
+                        <td><input class="inputBox" v-model="pm1023_res.crdAprvAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>signature </td>
+                        <td><input class="inputBox" v-model="pm1023_res.signature" type = "text" style="width: 400px"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div id='pc2app_pm1005'>
         <div style="border: 1px dotted; border-radius: 5px; padding: 10px; width: 70%; text-align: left; margin: auto; background: white;">
             <h4>결제요청 : /pm/v1/pmt/mthd/auth/do
@@ -165,6 +215,34 @@
                     <tr>
                         <td>pmtReqId(결제요청ID) </td>
                         <td><input class="inputBox" v-model="pm1005_req.pmtReqId" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>totPmtAmt(총결제금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.totPmtAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>pntUseAmt(포인트사용금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.pntUseAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>gftUseAmt(기프트카드사용금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.gftUseAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>crdAprvAmt(카드승인금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.crdAprvAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>taxAmt(과세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.taxAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>taxfAmt(비과세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.taxfAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>svfFee(봉사료) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.svcFee" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>signature </td>
@@ -405,9 +483,6 @@
                     repPrdtNm:'대표상품테스트진행',
                     totPmtAmt:'10000',
                     totPrdtQty:'5',
-                    taxAmt:'1000',
-                    taxfAmt:'8000',
-                    svcFee:'1000',
                     signature:'',
                 },
                 pm1001_res: {
@@ -430,12 +505,12 @@
                     this.pm1001_req.apiId = "pm1001"
 
                     decSignature = hd.head.merchantId + this.pm1001_req.chnnlTypeCd + this.pm1001_req.mchtTrNo + this.pm1001_req.totPmtAmt
-                    + this.pm1001_req.taxAmt + this.pm1001_req.taxfAmt + this.pm1001_req.svcFee + this.pm1001_req.totPrdtQty
+                    + this.pm1001_req.totPrdtQty
 
                     //zhyun 변경사항 반영하여 signature 생성해야 함.
                     this.pm1001_req.signature = getEncSignature(decSignature)
 
-                    axios.post('/api/CJP-PM-001/', this.pm1001_req)
+                    axios.post('/api/PM1001/', this.pm1001_req)
                         .then(function (res) {
                             vm_pm1001.pm1001_res.code=res.data.code
                             vm_pm1001.pm1001_res.message=res.data.message
@@ -482,16 +557,108 @@
                     const top = (document.documentElement.clientHeight - wh) / 2;
 
                     window.open(
-                        "https://dev-pay.cjone.com/pg-mpm/?reqId=" + this.callQrPage_req.pmtReqId + "&qrCd=" + this.callQrPage_req.qrCd + '"',
+                        "https://dev-pay.cjone.com/pg-mpm/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd + '"'       ,
                         "CJ ONE PAY",
                         `width=${ww}, height=${wh}, top=${top}, left=${left}`
                     );
 
                     //다음 step(결제요청)으로 pmtReqId 전달
-                    vm_pm1005.pm1005_req.pmtReqId=this.callQrPage_req.pmtReqId
+                    vm_pm1023.pm1023_req.pmtReqId=this.callQrPage_req.pmtReqId
+
+                },
+                openApp: function() {
+                    console.log("openApp")
+                    //qr코드 조회 창 call 로직 필요
+
+                    const ww = 480;
+                    const wh = 720;
+                    // 팝업창 위치(가맹점 창의 가운데 기준)
+                    const left = (document.documentElement.clientWidth - ww) / 2;
+                    const top = (document.documentElement.clientHeight - wh) / 2;
+
+                    window.open(
+                        "https://dev-pay.cjone.com/pg-bridge/?type=mpm&reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd + '"'       ,
+                        "CJ ONE PAY",
+                        `width=${ww}, height=${wh}, top=${top}, left=${left}`
+                    );
+
+                    //다음 step(결제요청)으로 pmtReqId 전달
+                    vm_pm1023.pm1023_req.pmtReqId=this.callQrPage_req.pmtReqId
 
                 }
+
             },                   
+        })
+        var vm_pm1023 = new Vue({       //결제정보조회
+            delimiters: ['{', '}'],
+            el: '#pc2app_pm1023',
+            data: {
+                pm1023_req: {
+                    merchantKey:'',
+                    merchantId:'',
+                    pmtReqId:'',
+                    signature:'',
+                },
+                pm1023_res: {
+                    code:'',
+                    message:'',
+                    trNo:'',
+                    pmtReqId:'',
+                    totPmtAmt:'',
+                    pntUseAmt:'',
+                    gftUseAmt:'',
+                    crdAprvAmt:'',
+                    signature:'',
+                },
+            },
+            methods: {
+                submit_pm1023: function() {
+                    console.log("submit_pm1023")
+                    console.log(this.pm1023_req.pmtReqId)
+
+                    this.pm1023_req.merchantKey = hd.head.merchantKey
+                    this.pm1023_req.merchantId = hd.head.merchantId
+
+                    decSignature = this.pm1023_req.merchantId + this.pm1023_req.pmtReqId
+                    this.pm1023_req.signature = getEncSignature(decSignature)
+                    this.pm1023_req.apiId = "pm1023"
+
+                    axios.post('/api/PM1023/', this.pm1023_req)
+                        .then(function (res) {
+                            console.log(res)
+
+                            vm_pm1023.pm1023_res.code=res.data.code
+                            vm_pm1023.pm1023_res.message=res.data.message
+
+                            vm_pm1023.pm1023_res.trNo=res.data.trNo
+                            vm_pm1023.pm1023_res.pmtReqId=res.data.data.pmtReqId
+
+
+
+                            vm_pm1023.pm1023_res.totPmtAmt=res.data.data.totPmtAmt
+                            vm_pm1023.pm1023_res.pntUseAmt=res.data.data.pntUseAmt
+                            vm_pm1023.pm1023_res.gftUseAmt=res.data.data.gftUseAmt
+                            vm_pm1023.pm1023_res.crdAprvAmt=res.data.data.crdAprvAmt
+
+                            vm_pm1023.pm1023_res.signature=res.data.signature
+
+                            //다음 step(결제요청)으로 pmtReqId 전달
+                            vm_pm1005.pm1005_req.pmtReqId = vm_pm1023.pm1023_req.pmtReqId
+                            vm_pm1005.pm1005_req.totPmtAmt = vm_pm1023.pm1023_res.totPmtAmt
+                            vm_pm1005.pm1005_req.pntUseAmt = vm_pm1023.pm1023_res.pntUseAmt
+                            vm_pm1005.pm1005_req.gftUseAmt = vm_pm1023.pm1023_res.gftUseAmt
+                            vm_pm1005.pm1005_req.crdAprvAmt = vm_pm1023.pm1023_res.crdAprvAmt
+
+
+                        })
+                        .catch(function( err) {
+                            console.log("POST ERR", err);
+                        })
+
+
+
+                }
+            },
         })
         var vm_pm1005 = new Vue({
             delimiters: ['{', '}'],
@@ -501,6 +668,13 @@
                     merchantKey:'',
                     merchantId:'',
                     pmtReqId:'',
+                    totPmtAmt:'',
+                    pntUseAmt:'',
+                    gftUseAmt:'',
+                    crdAprvAmt:'',
+                    taxAmt:'',
+                    taxfAmt:'',
+                    svcFee:'',
                     signature:'',
                 },
                 pm1005_res: {
@@ -538,15 +712,42 @@
                     this.pm1005_req.merchantId = hd.head.merchantId
 
                     decSignature = this.pm1005_req.merchantId + this.pm1005_req.pmtReqId
+                         + this.pm1005_req.totPmtAmt + this.pm1005_req.pntUseAmt + this.pm1005_req.gftUseAmt + this.pm1005_req.crdAprvAmt + this.pm1005_req.taxAmt + this.pm1005_req.taxfAmt + this.pm1005_req.svcFee
+
                     this.pm1005_req.signature = getEncSignature(decSignature)
                     this.pm1005_req.apiId = "pm1005"
     
-                    axios.post('/api/CJP-PM-005/', this.pm1005_req)
+                    axios.post('/api/PM1005/', this.pm1005_req)
                         .then(function (res) {
+                            console.log(res)
 
+                            vm_pm1005.pm1005_res.code=res.data.code
+                            vm_pm1005.pm1005_res.message=res.data.message
+
+                            vm_pm1005.pm1005_res.trNo=res.data.trNo
+                            vm_pm1005.pm1005_res.pmtReqId=res.data.data.pmtReqId
+                            vm_pm1005.pm1005_res.mchtTrNo=res.data.data.mchtTrNo
+                            vm_pm1005.pm1005_res.mbrNo=res.data.data.mbrNo
+                            vm_pm1005.pm1005_res.oneMbrNo=res.data.data.oneMbrNo
+                            vm_pm1005.pm1005_res.totPmtAmt=res.data.data.totPmtAmt
+                            vm_pm1005.pm1005_res.taxAmt=res.data.data.taxAmt
+                            vm_pm1005.pm1005_res.taxfAmt=res.data.data.taxfAmt
+                            vm_pm1005.pm1005_res.svcFee=res.data.data.svcFee
+                            vm_pm1005.pm1005_res.pntUseAmt=res.data.data.pntUseAmt
+                            vm_pm1005.pm1005_res.gftUseAmt=res.data.data.gftUseAmt
+                            vm_pm1005.pm1005_res.crdAprvAmt=res.data.data.crdAprvAmt
+                            vm_pm1005.pm1005_res.crdfmCd=res.data.data.crdfmCd
+                            vm_pm1005.pm1005_res.crdAuth_otcTypeCd=res.data.data.crdAuth.otcTypeCd
+                            vm_pm1005.pm1005_res.crdAuth_otc=res.data.data.crdAuth.otc
+                            vm_pm1005.pm1005_res.crdAuth_crdNo=res.data.data.crdAuth.crdNo
+                            vm_pm1005.pm1005_res.crdAuth_cavv=res.data.data.crdAuth.cavv
+                            vm_pm1005.pm1005_res.crdAuth_xid=res.data.data.crdAuth.xid
+                            vm_pm1005.pm1005_res.crdAuth_eci=res.data.data.crdAuth.eci
+                            vm_pm1005.pm1005_res.crdAuth_otcV2=res.data.data.crdAuth.otcV2
+                            vm_pm1005.pm1005_res.signature=res.data.signature
 
                             //다음 step(결제승인)으로 pmtReqId 전달
-                            this.pm1005_req.signature = getEncSignature(decSignature)
+                            vm_pm1006.pm1006_req.pmtReqId = this.pm1005_req.pmtReqId
                         })
                         .catch(function( err) {
                             console.log("POST ERR", err);

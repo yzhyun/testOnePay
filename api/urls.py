@@ -6,8 +6,9 @@ app_name = 'api'
 urlpatterns = [
 
     #path('CJP-PM-001/', views.ApiGetList.as_view(), name='PM001'),
-    path('CJP-PM-001/', views.post),
-    path('CJP-PM-005/', views.post),
+    path('PM1001/', views.post),
+    path('PM1005/', views.post),
+    path('PM1023/', views.post),
 
 
 ]
