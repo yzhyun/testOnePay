@@ -233,16 +233,36 @@
                         <td><input class="inputBox" v-model="pm1005_req.crdAprvAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
-                        <td>taxAmt(과세 금액) </td>
-                        <td><input class="inputBox" v-model="pm1005_req.taxAmt" type = "text" style="width: 400px"></td>
+                        <td>vat(부가세) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.vat" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
-                        <td>taxfAmt(비과세 금액) </td>
-                        <td><input class="inputBox" v-model="pm1005_req.taxfAmt" type = "text" style="width: 400px"></td>
+                        <td>totTaxfAmt(총 비과세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.totTaxfAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
-                        <td>svfFee(봉사료) </td>
-                        <td><input class="inputBox" v-model="pm1005_req.svcFee" type = "text" style="width: 400px"></td>
+                        <td>crdVat(신용카드 부가세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.crdVat" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>crdTaxfAmt(신용카드 비과세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.crdTaxfAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>pntVat(포인트 부가세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.pntVat" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>pntTaxfAmt(포인트 비과세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.pntTaxfAmt" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>gftVat(기프트카드 부가세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.gftVat" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>gftTaxfAmt(기프트카드 비과세 금액) </td>
+                        <td><input class="inputBox" v-model="pm1005_req.gftTaxfAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>signature </td>
@@ -294,8 +314,8 @@
                         <td><input class="inputBox" v-model="pm1005_res.taxfAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
-                        <td>data.svcFee(봉사료) </td>
-                        <td><input class="inputBox" v-model="pm1005_res.svcFee" type = "text" style="width: 400px"></td>
+                        <td>data.vat(부가세) </td>
+                        <td><input class="inputBox" v-model="pm1005_res.vat" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>data.pntUseAmt(포인트 사용 금액) </td>
@@ -411,8 +431,8 @@
                         <td><input class="inputBox" v-model="pm1006_res.taxfAmt" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
-                        <td>data.svcFee(봉사료) </td>
-                        <td><input class="inputBox" v-model="pm1006_res.svcFee" type = "text" style="width: 400px"></td>
+                        <td>data.vat(부가세) </td>
+                        <td><input class="inputBox" v-model="pm1006_res.vat" type = "text" style="width: 400px"></td>
                     </tr>
                     <tr>
                         <td>data.pntUseAmt(포인트 사용 금액) </td>
@@ -445,7 +465,15 @@
                     <tr>
                         <td>data.crdlstMons(할부개월) </td>
                         <td><input class="inputBox" v-model="pm1006_res.crdlstMons" type = "text" style="width: 400px"></td>
-                    </tr>                    
+                    </tr>
+                    <tr>
+                        <td>data.cjoneDobSaveYn(CJONE 더블 적립 여부) </td>
+                        <td><input class="inputBox" v-model="pm1006_res.cjoneDobSaveYn" type = "text" style="width: 400px"></td>
+                    </tr>
+                    <tr>
+                        <td>data.cjCrdDcGbCd(CJ 카드 할인구분코드) </td>
+                        <td><input class="inputBox" v-model="pm1006_res.cjCrdDcGbCd" type = "text" style="width: 400px"></td>
+                    </tr>
                     <tr>
                         <td>signature </td>
                         <td><input class="inputBox" v-model="pm1006_res.signature" type = "text" style="width: 400px"></td>
@@ -460,13 +488,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script src="/static/utils/encrypt.js"></script>
     <script>
+
+
         var hd = new Vue({
             delimiters: ['{', '}'],
             el: '#apiHeader',
             data: {
                 head: {
-                    merchantKey:'c2329e6fb050a55e6aa3aed23782c870',
-                    merchantId:'3000000001',
+                    merchantKey:'3000000095',
+                    merchantId:'3000000095',
                 },
             }
         })
@@ -557,7 +587,7 @@
                     const top = (document.documentElement.clientHeight - wh) / 2;
 
                     window.open(
-                        "https://dev-pay.cjone.com/pg-mpm/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd + '"'       ,
+                        "https://dev-pay.cjone.com/qr/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd       ,
                         "CJ ONE PAY",
                         `width=${ww}, height=${wh}, top=${top}, left=${left}`
                     );
@@ -577,7 +607,7 @@
                     const top = (document.documentElement.clientHeight - wh) / 2;
 
                     window.open(
-                        "https://dev-pay.cjone.com/pg-bridge/?type=mpm&reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd + '"'       ,
+                        "https://dev-pay.cjone.com/bridge/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId,
                         "CJ ONE PAY",
                         `width=${ww}, height=${wh}, top=${top}, left=${left}`
                     );
@@ -589,7 +619,8 @@
 
             },                   
         })
-        var vm_pm1023 = new Vue({       //결제정보조회
+        //결제정보조회
+        var vm_pm1023 = new Vue({
             delimiters: ['{', '}'],
             el: '#pc2app_pm1023',
             data: {
@@ -660,6 +691,7 @@
                 }
             },
         })
+        //결제요청
         var vm_pm1005 = new Vue({
             delimiters: ['{', '}'],
             el: '#pc2app_pm1005',
@@ -672,9 +704,14 @@
                     pntUseAmt:'',
                     gftUseAmt:'',
                     crdAprvAmt:'',
-                    taxAmt:'',
-                    taxfAmt:'',
-                    svcFee:'',
+                    vat:'0',
+                    totTaxfAmt:'0',
+                    crdVat:'0',
+                    crdTaxfAmt:'0',
+                    pntVat:'0',
+                    pntTaxfAmt:'0',
+                    gftVat:'0',
+                    gftTaxfAmt:'0',
                     signature:'',
                 },
                 pm1005_res: {
@@ -688,7 +725,7 @@
                     totPmtAmt:'',
                     taxAmt:'',
                     taxfAmt:'',
-                    svcFee:'',
+                    vat:'',
                     pntUseAmt:'',
                     gftUseAmt:'',
                     crdAprvAmt:'',
@@ -712,7 +749,8 @@
                     this.pm1005_req.merchantId = hd.head.merchantId
 
                     decSignature = this.pm1005_req.merchantId + this.pm1005_req.pmtReqId
-                         + this.pm1005_req.totPmtAmt + this.pm1005_req.pntUseAmt + this.pm1005_req.gftUseAmt + this.pm1005_req.crdAprvAmt + this.pm1005_req.taxAmt + this.pm1005_req.taxfAmt + this.pm1005_req.svcFee
+                         + this.pm1005_req.totPmtAmt + this.pm1005_req.pntUseAmt + this.pm1005_req.gftUseAmt + this.pm1005_req.crdAprvAmt
+                         + this.pm1005_req.totTaxfAmt + this.pm1005_req.crdTaxfAmt + this.pm1005_req.pntTaxfAmt + this.pm1005_req.gftTaxfAmt
 
                     this.pm1005_req.signature = getEncSignature(decSignature)
                     this.pm1005_req.apiId = "pm1005"
@@ -732,7 +770,7 @@
                             vm_pm1005.pm1005_res.totPmtAmt=res.data.data.totPmtAmt
                             vm_pm1005.pm1005_res.taxAmt=res.data.data.taxAmt
                             vm_pm1005.pm1005_res.taxfAmt=res.data.data.taxfAmt
-                            vm_pm1005.pm1005_res.svcFee=res.data.data.svcFee
+                            vm_pm1005.pm1005_res.vat=res.data.data.vat
                             vm_pm1005.pm1005_res.pntUseAmt=res.data.data.pntUseAmt
                             vm_pm1005.pm1005_res.gftUseAmt=res.data.data.gftUseAmt
                             vm_pm1005.pm1005_res.crdAprvAmt=res.data.data.crdAprvAmt
@@ -747,7 +785,7 @@
                             vm_pm1005.pm1005_res.signature=res.data.signature
 
                             //다음 step(결제승인)으로 pmtReqId 전달
-                            vm_pm1006.pm1006_req.pmtReqId = this.pm1005_req.pmtReqId
+                            vm_pm1006.pm1006_req.pmtReqId = vm_pm1005.pm1005_req.pmtReqId
                         })
                         .catch(function( err) {
                             console.log("POST ERR", err);
@@ -758,7 +796,8 @@
                 }
             },                   
         })
-        var vm_pm1006 = new Vue({
+        //결제승인
+       var vm_pm1006 = new Vue({
             delimiters: ['{', '}'],
             el: '#pc2app_pm1006',
             data: {
@@ -793,21 +832,40 @@
                 submit_pm1006: function() {
                     console.log("submit_pm1006")                    
                     //다음 step(결제승인)으로 pmtReqId 전달
+
+
+
+                    this.pm1006_req.merchantKey = hd.head.merchantKey
+                    this.pm1006_req.merchantId = hd.head.merchantId
                     
                     decSignature = hd.head.merchantId + this.pm1006_req.pmtReqId
                     this.pm1006_req.signature = getEncSignature(decSignature)
+
+                    this.pm1006_req.apiId = "pm1006"
+
+                    axios.post('/api/PM1006/', this.pm1006_req)
+                        .then(function (res) {
+                        })
+                        .catch(function( err) {
+                            console.log("POST ERR", err);
+                        })
                     
                 }
             },                   
         })
 
         window.addEventListener("message", ({ origin, data }) => {
-        // 팝업창 주소가 CJ PAY WEB이 아니면 리턴
-        if (origin !== "https://dev-pay.cjone.com") return;
+            alert(origin)
+            alert(data)
+            // 팝업창 주소가 CJ PAY WEB이 아니면 리턴
+            if (origin !== "https://dev-pay.cjone.com") return;
 
-        if (data.msg === "onCjpPmtReady") {
-            alert("👉 Here, 사용자인증 후 처리 내용 구현 👈");
-        }
+            if (data.msg === "onCjpPmtReady") {
+                alert("👉 Here, 사용자인증 후 처리 내용 구현 👈");
+                if (data.hasOwnProperty("reqId")) {
+                        console.log(data.reqId);
+                }
+            }
         });
     </script>
 </body>

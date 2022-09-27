@@ -9,6 +9,7 @@ urlpatterns = [
     path('PM1001/', views.post),
     path('PM1005/', views.post),
     path('PM1023/', views.post),
+    path('PM1006/', views.post),
 
 
 ]
