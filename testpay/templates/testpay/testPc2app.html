@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="shortcut icon" href="#">
     <title>testpay App_YJH</title>
 
     <style>
@@ -586,10 +587,13 @@
                     const left = (document.documentElement.clientWidth - ww) / 2;
                     const top = (document.documentElement.clientHeight - wh) / 2;
 
+                    //window.location.href
+
                     window.open(
-                        "https://dev-pay.cjone.com/qr/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd       ,
-                        "CJ ONE PAY",
-                        `width=${ww}, height=${wh}, top=${top}, left=${left}`
+                        "https://dev-pay.cjone.com/qr/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd
+                            + "&redirect=" + "127.0.0.1:8000/testpay/redirect"
+                        ,"CJ ONE PAY"
+                        ,`width=${ww}, height=${wh}, top=${top}, left=${left}`
                     );
 
                     //다음 step(결제요청)으로 pmtReqId 전달
@@ -855,8 +859,7 @@
         })
 
         window.addEventListener("message", ({ origin, data }) => {
-            alert(origin)
-            alert(data)
+
             // 팝업창 주소가 CJ PAY WEB이 아니면 리턴
             if (origin !== "https://dev-pay.cjone.com") return;
 
