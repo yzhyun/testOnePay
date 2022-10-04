@@ -28,8 +28,10 @@
         <h1>CJ One Pay Test Redirect Page</h1>
         <strong>Redirect Value</strong>
 
-        <div class="inputBox">
-            <input type="text" placeholder="parameters" v-model="parameters">
+        <div class="inputBox" >
+            <input type="text" placeholder="pmtReqId" v-model="params.pmtReqId">
+            <input type="text" placeholder="succYn" v-model="params.succYn">
+
         </div>
     </div>
 
@@ -37,17 +39,23 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        alert(window.location.href)
-        let sHref = window.location.href
 
-        parameters = window.location.search.pmtReqId
-        alert(window.location.search)
-        alert(parameters)
+        let params = new URL(document.location).searchParams;
+        //let pmtReqId = params.get("pmtReqId")
+        //let succYn = param.get("succYn")
+        //params.pmtReqId= pmtReqId
+        vm.params.succYn= "aaaa"
+
+
+
         var vm = new Vue({
             delimiters: ['{', '}'],
             el: '#redirect',
             data: {
-                parameters: '',
+                    params: {
+                        pmtReqId: '',
+                        succYn: 'aa',
+                    },
              },
 
             methods: {
