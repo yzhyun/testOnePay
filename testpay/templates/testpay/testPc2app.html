@@ -611,7 +611,8 @@
                     const top = (document.documentElement.clientHeight - wh) / 2;
 
                     window.open(
-                        "https://dev-pay.cjone.com/bridge/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId,
+                        "https://dev-pay.cjone.com/bridge/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd
+                            + "&redirect=" + "http://127.0.0.1:8000/testpay/redirect"
                         "CJ ONE PAY",
                         `width=${ww}, height=${wh}, top=${top}, left=${left}`
                     );
