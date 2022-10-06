@@ -611,10 +611,10 @@
                     const top = (document.documentElement.clientHeight - wh) / 2;
 
                     window.open(
-                        "https://dev-pay.cjone.com/bridge/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId + "&qrCd=" + this.callQrPage_req.qrCd
-                            + "&redirect=" + "http://10.184.165.246:9999/testpay/redirect",
-                        "CJ ONE PAY",
-                        `width=${ww}, height=${wh}, top=${top}, left=${left}`
+                        "https://dev-pay.cjone.com/bridge/?reqId=" + this.callQrPage_req.pmtReqId + "&mchtId=" + this.callQrPage_req.merchantId
+                            + "&redirect=" + "http://10.184.165.246:9999/testpay/redirect"
+                        , "CJ ONE PAY"
+                        ,`width=${ww}, height=${wh}, top=${top}, left=${left}`
                     );
 
                     //다음 step(결제요청)으로 pmtReqId 전달
